@@ -1,0 +1,22 @@
+{
+    "name" : "axn/laravel-eloquent-authorable",
+    "description" : "Support des champs created_by et updated_by dans les modèles.",
+    "homepage" : "https://bitbucket.org/axn/laravel-eloquent-authorable",
+    "support" : {
+        "issues" : "https://bitbucket.org/axn/laravel-eloquent-authorable/issues?status=new&status=open"
+    },
+    "authors" : [{
+            "name" : "AXN Informatique",
+            "email" : "developpement@axn.fr"
+        }
+    ],
+    "license" : "MIT",
+    "require" : {
+        "illuminate/support" : "^5.1"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "Axn\\EloquentAuthorable\\" : "src/"
+        }
+    }
+}
