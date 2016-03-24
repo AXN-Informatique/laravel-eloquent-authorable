@@ -78,7 +78,7 @@ class MonModel extends Eloquent implement Authorable
 {
     use AuthorableTrait;
 
-    public $authorable [
+    public $authorable = [
         'created_by_column_name' => 'custom_created_by',
         'updated_by_column_name' => 'custom_updated_by',
     ];
@@ -97,7 +97,7 @@ class MonModel extends Eloquent implement Authorable
 {
     use AuthorableTrait;
 
-    public $authorable [
+    public $authorable = [
         'set_author_when_creating' => false,
         'set_author_when_updating' => false,
     ];
@@ -115,7 +115,7 @@ class MonModel extends Eloquent implement Authorable
 {
     use AuthorableTrait;
 
-    public $authorable [
+    public $authorable = [
         'created_by_column_name    => 'custom_created_by',
         'set_author_when_creating' => true,
         'updated_by_column_name'   => 'custom_updated_by',
