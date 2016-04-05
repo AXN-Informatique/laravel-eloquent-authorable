@@ -22,7 +22,8 @@ Pour ajouter la fonctionnalité à un modèle il faut que :
 
 1. le modèle implémente l'interface `Axn\EloquentAuthorable\Authorable`
 2. le modèle utilise le trait `Axn\EloquentAuthorable\Authorable`
-3. éventuellement indiquer quelles colonnes de la table modifier
+3. la table possède les champs concernés (`created_at` et `updated_at` par défaut)
+4. éventuellement modifier le paramétrage (voir section concernée)
 
 ## Exemple
 
@@ -37,7 +38,7 @@ class MonModele extends Eloquent implement Authorable
 ```
 
 Dès lors, à chaque création/mise à jour d'une entrée dans la table liée au modèle
-les colonnes 'created_by' et 'updated_by' seront automatiquement renseignées
+les colonnes `created_by` et `updated_by` seront automatiquement renseignées
 avec l'id de l'utilisateur actuellement authentifié.
 
 De plus, deux relations 1-n inverses (belongs to) vers la table des utilisateurs (celle utilisé
@@ -66,7 +67,7 @@ différents pour celles-ci.
 
 ### Noms des colonnes
 
-Par défaut ce sont les colonnes 'created_by' et 'updated_by' qui sont renseignées.
+Par défaut ce sont les colonnes `created_by` et `updated_by` qui sont renseignées.
 
 Vous pouvez préciser des noms de colonnes différents comme ceci :
 
