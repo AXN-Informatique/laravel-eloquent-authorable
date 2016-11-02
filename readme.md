@@ -6,13 +6,13 @@ Support des champs created_by et updated_by dans les modèles Eloquent.
 
 Inclure le package avec Composer :
 
-```
+```sh
 composer require axn/laravel-eloquent-authorable
 ```
 
 Ajoutez le service provider au tableau des providers dans `config/app.php` :
 
-```
+```php
 'Axn\EloquentAuthorable\ServiceProvider',
 ```
 
@@ -55,7 +55,7 @@ $monModele = MonModele::with('createdBy', 'updatedBy')->first();
 
 **Exemple dans une vue Blade :**
 
-```html
+```blade
 <p>Créé par {{ $monModele->createdBy->name }} ({{ $monModele->createdBy->email }})
 et mis à jour par {{ $monModele->updatedBy->name }} ({{ $monModele->updatedBy->email }}).</p>
 ```
