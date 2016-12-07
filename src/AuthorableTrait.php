@@ -58,7 +58,7 @@ trait AuthorableTrait
     protected function getUsersModel()
     {
         if (!isset($this->authorable['users_model'])) {
-            return config(eloquent-authorable.users_model);
+            return config('eloquent-authorable.users_model');
         }
 
         return $this->authorable['users_model'];
@@ -72,7 +72,7 @@ trait AuthorableTrait
     protected function shouldSetAuthorWhenCreating()
     {
         if (!isset($this->authorable['set_author_when_creating'])) {
-            return config(eloquent-authorable.set_author_when_creating);
+            return config('eloquent-authorable.set_author_when_creating');
         }
 
         return $this->authorable['set_author_when_creating'];
@@ -86,7 +86,7 @@ trait AuthorableTrait
     protected function shouldSetAuthorWhenUpdating()
     {
         if (!isset($this->authorable['set_author_when_updating'])) {
-            return config(eloquent-authorable.set_author_when_updating);
+            return config('eloquent-authorable.set_author_when_updating');
         }
 
         return $this->authorable['set_author_when_updating'];
@@ -103,7 +103,7 @@ trait AuthorableTrait
             return $this->authorable['created_by_column_name'];
         }
 
-        return config(eloquent-authorable.created_by_column_name);
+        return config('eloquent-authorable.created_by_column_name');
     }
 
     /**
@@ -117,7 +117,7 @@ trait AuthorableTrait
             return $this->authorable['updated_by_column_name'];
         }
 
-        return config(eloquent-authorable.updated_by_column_name);
+        return config('eloquent-authorable.updated_by_column_name');
     }
 
     /**
