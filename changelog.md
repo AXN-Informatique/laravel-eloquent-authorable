@@ -1,5 +1,10 @@
-Changelog for Laravel Eloquent Authorable
-=========================================
+Changelog
+=========
+
+1.0.4 (2016-12-07)
+------------------
+
+- Typo in composer.json
 
 1.0.3 (2016-12-07)
 ------------------
