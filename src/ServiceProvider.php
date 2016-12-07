@@ -20,6 +20,10 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
+        $this->publishes([
+            __DIR__.'/../config/eloquent-authorable.php' => $this->app->configPath().'/eloquent-authorable.php'
+        ], 'config');
+
         $this->bootEvents();
     }
 
@@ -41,21 +45,14 @@ class ServiceProvider extends BaseServiceProvider
     public function bootEvents()
     {
         $this->app['events']->listen('eloquent.creating*', function ($model) {
-
             if ($model instanceof Authorable) {
-                if ($model->shouldSetAuthorWhenCreating()) {
-                    $model->setCreatedByColumn();
-                }
-
-                if ($model->shouldSetAuthorWhenUpdating()) {
-                    $model->setUpdatedByColumn();
-                }
+                $model->setCreatedByColumn();
+                $model->setUpdatedByColumn();
             }
         });
 
         $this->app['events']->listen('eloquent.updating*', function ($model) {
-
-            if ($model instanceof Authorable && $model->shouldSetAuthorWhenUpdating()) {
+            if ($model instanceof Authorable) {
                 $model->setUpdatedByColumn();
             }
         });

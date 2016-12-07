@@ -12,7 +12,7 @@
     ],
     "license" : "MIT",
     "require" : {
-        "illuminate/support" : "5.0.*|5.1.*"
+        "illuminate/support" : "5.2.*|5.3.*"
     },
     "autoload" : {
         "psr-4" : {

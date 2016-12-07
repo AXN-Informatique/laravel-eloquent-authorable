@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.0.0 (2016-12-07)
+------------------
+
+- Branche 2.x for Laravel 5.2.x and 5.3.x
+- Add config file with default partameters
+
 1.0.4 (2016-12-07)
 ------------------
 
