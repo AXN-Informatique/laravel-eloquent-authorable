@@ -2,6 +2,15 @@
 
 Support des champs created_by et updated_by dans les modèles Eloquent.
 
+## Compatibilité
+
+| Laravel  | Package |
+| -------- | ------- |
+| 5.3.x    | 2.x     |
+| 5.2.x    | 2.x     |
+| 5.1.x    | 1.x     |
+| 5.0.x    | 1.x     |
+
 ## Installation
 
 Inclure le package avec Composer :
