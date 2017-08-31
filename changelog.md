@@ -1,10 +1,10 @@
 Changelog
 =========
 
-2.1.1 (2017-09-01)
+3.0.0 (2017-08-31)
 ------------------
 
-- Fix wildcard event handler signatures
+- Fix wildcard event handler signatures for Laravel 5.4.x
 
 2.1.0 (2017-05-15)
 ------------------
