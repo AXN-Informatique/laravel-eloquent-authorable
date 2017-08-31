@@ -44,16 +44,20 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function bootEvents()
     {
-        $this->app['events']->listen('eloquent.creating*', function ($model) {
-            if ($model instanceof Authorable) {
-                $model->setCreatedByColumn();
-                $model->setUpdatedByColumn();
+        $this->app['events']->listen('eloquent.creating*', function ($eventName, array $data) {
+            foreach ($data as $model) {
+                if ($model instanceof Authorable) {
+                    $model->setCreatedByColumn();
+                    $model->setUpdatedByColumn();
+                }
             }
         });
 
-        $this->app['events']->listen('eloquent.updating*', function ($model) {
-            if ($model instanceof Authorable) {
-                $model->setUpdatedByColumn();
+        $this->app['events']->listen('eloquent.updating*', function ($eventName, array $data) {
+            foreach ($data as $model) {
+                if ($model instanceof Authorable) {
+                    $model->setUpdatedByColumn();
+                }
             }
         });
     }
