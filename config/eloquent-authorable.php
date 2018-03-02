@@ -2,7 +2,7 @@
 
 return [
 
-    'users_model' => App\Models\User::class,
+    'users_model' => App\User::class,
 
     'set_author_when_creating' => true,
 
