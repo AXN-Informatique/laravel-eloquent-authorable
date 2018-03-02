@@ -41,7 +41,7 @@ Pour ajouter la fonctionnalité à un modèle il faut que :
 use Axn\EloquentAuthorable\Authorable;
 use Axn\EloquentAuthorable\AuthorableTrait;
 
-class MonModele extends Eloquent implement Authorable
+class MonModele extends Eloquent implements Authorable
 {
     use AuthorableTrait;
 }
@@ -85,7 +85,7 @@ Vous pouvez préciser des noms de colonnes différents comme ceci :
 use Axn\EloquentAuthorable\Authorable;
 use Axn\EloquentAuthorable\AuthorableTrait;
 
-class MonModel extends Eloquent implement Authorable
+class MonModel extends Eloquent implements Authorable
 {
     use AuthorableTrait;
 
@@ -104,7 +104,7 @@ Vous pouvez désactiver la fonctionnalité comme ceci :
 use Axn\EloquentAuthorable\Authorable;
 use Axn\EloquentAuthorable\AuthorableTrait;
 
-class MonModel extends Eloquent implement Authorable
+class MonModel extends Eloquent implements Authorable
 {
     use AuthorableTrait;
 
@@ -122,7 +122,7 @@ class MonModel extends Eloquent implement Authorable
 use Axn\EloquentAuthorable\Authorable;
 use Axn\EloquentAuthorable\AuthorableTrait;
 
-class MonModel extends Eloquent implement Authorable
+class MonModel extends Eloquent implements Authorable
 {
     use AuthorableTrait;
 
