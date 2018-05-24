@@ -1,18 +1,21 @@
-# Laravel Eloquent Authorable
+Laravel Eloquent Authorable
+===========================
 
 Support des champs created_by et updated_by dans les modèles Eloquent.
 
-## Compatibilité
+Compatibilité
+-------------
 
 | Laravel  | Package |
 | -------- | ------- |
-| 5.4.x    | 2.x     |
+| 5.4.x    | 3.x     |
 | 5.3.x    | 2.x     |
 | 5.2.x    | 2.x     |
 | 5.1.x    | 1.x     |
 | 5.0.x    | 1.x     |
 
-## Installation
+Installation
+-------------
 
 Inclure le package avec Composer :
 
@@ -26,7 +29,8 @@ Ajoutez le service provider au tableau des providers dans `config/app.php` :
 'Axn\EloquentAuthorable\ServiceProvider',
 ```
 
-## Utilisation
+Utilisation
+-----------
 
 Pour ajouter la fonctionnalité à un modèle il faut que :
 
@@ -35,7 +39,8 @@ Pour ajouter la fonctionnalité à un modèle il faut que :
 3. la table possède les champs concernés (`created_at` et `updated_at` par défaut)
 4. éventuellement modifier le paramétrage (voir section concernée)
 
-## Exemple
+Exemple
+-------
 
 ```php
 use Axn\EloquentAuthorable\Authorable;
@@ -73,7 +78,8 @@ et mis à jour par {{ $monModele->updatedBy->name }} ({{ $monModele->updatedBy->
 Rien ne vous empêche de définir vos propres relations si vous souhaitez des noms
 différents pour celles-ci.
 
-## Paramètrage
+Paramètrage
+-----------
 
 ### Noms des colonnes
 
@@ -116,7 +122,7 @@ class MonModel extends Eloquent implements Authorable
 ```
 
 
-## Exemple complet
+### Exemple complet
 
 ```php
 use Axn\EloquentAuthorable\Authorable;
@@ -133,4 +139,16 @@ class MonModel extends Eloquent implements Authorable
         'set_author_when_updating' => false,
     ];
 }
+```
+
+
+Configuration
+-------------
+
+Tous ces paramètrages ci-dessus peuvent êtres définies de façon globale grâce au fichier de configuration.
+
+Publiez le fichier de configuration :
+
+```sh
+php artisan vendor:publish --provider="Axn\EloquentAuthorable\ServiceProvider"
 ```
