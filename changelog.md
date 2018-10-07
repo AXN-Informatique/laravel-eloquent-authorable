@@ -1,6 +1,12 @@
 Changelog
 =========
 
+3.1.0 (2018-05-24)
+------------------
+
+- Support for Laravel 5.5.x ; 5.6.x and 5.7.x
+- Add new configuration entry to customize the authentication Guard to use
+
 3.0.1 (2018-05-24)
 ------------------
 

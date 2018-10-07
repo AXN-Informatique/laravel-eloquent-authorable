@@ -2,8 +2,6 @@
 
 namespace Axn\EloquentAuthorable;
 
-use Illuminate\Support\Facades\Auth;
-
 trait AuthorableTrait
 {
     /**
@@ -51,6 +49,21 @@ trait AuthorableTrait
     }
 
     /**
+     *
+     * @return NULL
+     */
+    protected function getAuthInstance()
+    {
+        static $auth = null;
+
+        if ($auth === null) {
+            $auth = app('auth')->guard($this->getGuardName());
+        }
+
+        return $auth;
+    }
+
+    /**
      * Determines the users model name to use.
      *
      * @return string
@@ -62,6 +75,20 @@ trait AuthorableTrait
         }
 
         return $this->authorable['users_model'];
+    }
+
+    /**
+     * Determines the Guard name to use.
+     *
+     * @return string
+     */
+    protected function getGuardName()
+    {
+        if (!isset($this->authorable['guard'])) {
+            return config('eloquent-authorable.guard');
+        }
+
+        return $this->authorable['guard'];
     }
 
     /**
@@ -128,8 +155,10 @@ trait AuthorableTrait
      */
     protected function setAuthorColumn($column)
     {
-        if (Auth::check()) {
-            $user = Auth::user();
+        $auth = $this->getAuthInstance();
+
+        if ($auth->check()) {
+            $user = $auth->user();
 
             $this->$column = $user->{$user->getKeyName()};
         }

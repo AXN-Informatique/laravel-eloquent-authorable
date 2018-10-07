@@ -1,97 +1,170 @@
 Laravel Eloquent Authorable
 ===========================
 
-Support des champs created_by et updated_by dans les modèles Eloquent.
+As Laravel Eloquent is able to automatically fill in the `created_at` and` updated_at` fields,
+this package provides automatic support for the `created_by` and` updated_by` fields in your Eloquent models.
 
-Compatibilité
+This package will avoid you to always indicate when creating and/or updating a model who is the user who performed this action.
+This package does it for you and it simplifies the recovery of this information.
+
+
+Compatibility
 -------------
 
 | Laravel  | Package |
 | -------- | ------- |
+| 5.7.x    | 3.x     |
+| 5.6.x    | 3.x     |
+| 5.5.x    | 3.x     |
 | 5.4.x    | 3.x     |
 | 5.3.x    | 2.x     |
 | 5.2.x    | 2.x     |
 | 5.1.x    | 1.x     |
 | 5.0.x    | 1.x     |
 
-Installation
--------------
 
-Inclure le package avec Composer :
+Usage
+-----
 
-```sh
-composer require axn/laravel-eloquent-authorable
-```
+To add functionality to a model, it is necessary that:
 
-Ajoutez le service provider au tableau des providers dans `config/app.php` :
+1. the model implements the interface `Axn\EloquentAuthorable\Authorable`
+2. the model use the trait `Axn\EloquentAuthorable\Authorable`
+3. The related table has the concerned fields (by default `created_at` and `updated_at`)
 
-```php
-'Axn\EloquentAuthorable\ServiceProvider',
-```
 
-Utilisation
------------
+### Simple example
 
-Pour ajouter la fonctionnalité à un modèle il faut que :
-
-1. le modèle implémente l'interface `Axn\EloquentAuthorable\Authorable`
-2. le modèle utilise le trait `Axn\EloquentAuthorable\Authorable`
-3. la table possède les champs concernés (`created_at` et `updated_at` par défaut)
-4. éventuellement modifier le paramétrage (voir section concernée)
-
-Exemple
--------
+#### Eloquent Model
 
 ```php
+
 use Axn\EloquentAuthorable\Authorable;
 use Axn\EloquentAuthorable\AuthorableTrait;
+use Illuminate\Database\Eloquent\Model
 
-class MonModele extends Eloquent implements Authorable
+class Post extends Model implements Authorable
 {
     use AuthorableTrait;
+
+    //...
 }
 ```
 
-Dès lors, à chaque création/mise à jour d'une entrée dans la table liée au modèle
-les colonnes `created_by` et `updated_by` seront automatiquement renseignées
-avec l'id de l'utilisateur actuellement authentifié.
+From now on, each creation/update of an entry in the `Posts` table
+the `created_by` and `updated_by` columns will automatically be filled
+with the id of the currently authenticated user.
 
-De plus, deux relations 1-n inverses (belongs to) vers la table des utilisateurs (celle utilisé
-pour l'authentification - voir `config/auth.php`) sont disponibles :
+In addition two 1-n inverse relationships (belongs to) with the users table are available:
 
 - createdBy()
 - updatedBy()
 
-**Exemple avec le "with" d'Eloquent (eager-loading) :**
-
-```php
-$monModele = MonModele::with('createdBy', 'updatedBy')->first();
-```
-
-**Exemple dans une vue Blade :**
+####  Using in Blade view
 
 ```blade
-<p>Créé par {{ $monModele->createdBy->name }} ({{ $monModele->createdBy->email }})
-et mis à jour par {{ $monModele->updatedBy->name }} ({{ $monModele->updatedBy->email }}).</p>
+Created by {{ $post->createdBy->name }} ({{ $post->createdBy->email }})
+and updated by {{ $post->updatedBy->name }} ({{ $post->updatedBy->email }})
 ```
 
-Rien ne vous empêche de définir vos propres relations si vous souhaitez des noms
-différents pour celles-ci.
-
-Paramètrage
------------
-
-### Noms des colonnes
-
-Par défaut ce sont les colonnes `created_by` et `updated_by` qui sont renseignées.
-
-Vous pouvez préciser des noms de colonnes différents comme ceci :
+####  Using Eloquent eager-loading
 
 ```php
+$post = Post::with('createdBy', 'updatedBy')->first();
+```
+
+Installation
+------------
+
+With Composer :
+
+```sh
+composer require axn/laravel-extension
+```
+
+In Laravel 5.5 the service provider is automaticaly included.
+In older versions of the framework, simply add this service provider to the array
+of providers in `config/app.php` :
+
+```php
+// config/app.php
+
+'provider' => [
+    //...
+    Axn\EloquentAuthorable\ServiceProvider::class,
+    //...
+];
+```
+
+
+Settings
+--------
+
+There are two ways to set this feature:
+
+- globally for your application thanks to the configuration file
+- or for each model that uses it
+
+### Global configuration
+
+First initialise the config file in your application by running this command:
+
+```sh
+php artisan vendor:publish --provider="Axn\EloquentAuthorable\ServiceProvider" --tag="config"
+```
+
+Then, when published, the `config/eloquent-authorable.php` config file will contain the default values that you can then customize.
+
+Default values in this file are:
+
+- `users_model`: `App\User::class`
+- `guard`: `web`
+- `set_author_when_creating`: `true`
+- `set_author_when_updating`: `true`
+- `created_by_column_name`: `'created_by'`
+- `updated_by_column_name`: `'updated_by'`
+
+
+### Settings by model
+
+#### Model and guard
+
+By default, the user model `App\User::class` and `web` guard are used.
+
+You can specify different ones like this:
+
+```php
+
 use Axn\EloquentAuthorable\Authorable;
 use Axn\EloquentAuthorable\AuthorableTrait;
+use Illuminate\Database\Eloquent\Model
 
-class MonModel extends Eloquent implements Authorable
+class Post extends Model implements Authorable
+{
+    use AuthorableTrait;
+
+    public $authorable = [
+        'model' => \App\Admin::class,
+        'guard' => 'admin',
+    ];
+
+    //...
+}
+```
+
+#### Column names
+
+By default, the `created_by` and` updated_by` columns are used.
+
+You can specify different column names for a model like this:
+
+```php
+
+use Axn\EloquentAuthorable\Authorable;
+use Axn\EloquentAuthorable\AuthorableTrait;
+use Illuminate\Database\Eloquent\Model
+
+class Post extends Model implements Authorable
 {
     use AuthorableTrait;
 
@@ -99,18 +172,22 @@ class MonModel extends Eloquent implements Authorable
         'created_by_column_name' => 'custom_created_by',
         'updated_by_column_name' => 'custom_updated_by',
     ];
+
+    //...
 }
 ```
 
-### Activation/désactivation
+#### Enabling/Disabling
 
-Vous pouvez désactiver la fonctionnalité comme ceci :
+You can disable the feature like this:
 
 ```php
+
 use Axn\EloquentAuthorable\Authorable;
 use Axn\EloquentAuthorable\AuthorableTrait;
+use Illuminate\Database\Eloquent\Model
 
-class MonModel extends Eloquent implements Authorable
+class Post extends Model implements Authorable
 {
     use AuthorableTrait;
 
@@ -118,37 +195,34 @@ class MonModel extends Eloquent implements Authorable
         'set_author_when_creating' => false,
         'set_author_when_updating' => false,
     ];
+
+    //...
 }
 ```
 
 
-### Exemple complet
+#### Full example of custom implementation
 
 ```php
+
 use Axn\EloquentAuthorable\Authorable;
 use Axn\EloquentAuthorable\AuthorableTrait;
+use Illuminate\Database\Eloquent\Model
 
-class MonModel extends Eloquent implements Authorable
+class Post extends Model implements Authorable
 {
     use AuthorableTrait;
 
     public $authorable = [
+        'model' => \App\Admin::class,
+        'guard' => 'admin',
         'created_by_column_name    => 'custom_created_by',
         'set_author_when_creating' => true,
         'updated_by_column_name'   => 'custom_updated_by',
         'set_author_when_updating' => false,
     ];
+
+    //...
 }
 ```
 
-
-Configuration
--------------
-
-Tous ces paramètrages ci-dessus peuvent êtres définies de façon globale grâce au fichier de configuration.
-
-Publiez le fichier de configuration :
-
-```sh
-php artisan vendor:publish --provider="Axn\EloquentAuthorable\ServiceProvider"
-```

@@ -20,10 +20,6 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
-        $this->publishes([
-            __DIR__.'/../config/eloquent-authorable.php' => $this->app->configPath().'/eloquent-authorable.php'
-        ], 'config');
-
         $this->bootEvents();
     }
 
@@ -34,7 +30,7 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/eloquent-authorable.php', 'eloquent-authorable');
+        $this->registerConfig();
     }
 
     /**
@@ -60,5 +56,14 @@ class ServiceProvider extends BaseServiceProvider
                 }
             }
         });
+    }
+
+    private function registerConfig()
+    {
+        $this->mergeConfigFrom(__DIR__.'/../config/eloquent-authorable.php', 'eloquent-authorable');
+
+        $this->publishes([
+            __DIR__.'/../config/eloquent-authorable.php' => config_path('eloquent-authorable.php'),
+        ], 'config');
     }
 }
