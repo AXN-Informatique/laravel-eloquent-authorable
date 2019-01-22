@@ -1,6 +1,11 @@
 Changelog
 =========
 
+3.1.1 (2019-01-22)
+------------------
+
+- Add missing composer extra section for Laravel
+
 3.1.0 (2018-05-24)
 ------------------
 

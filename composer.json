@@ -18,5 +18,12 @@
         "psr-4" : {
             "Axn\\EloquentAuthorable\\" : "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Axn\\EloquentAuthorable\\ServiceProvider"
+            ]
+        }
     }
 }
