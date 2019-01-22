@@ -79,7 +79,7 @@ Installation
 With Composer :
 
 ```sh
-composer require axn/laravel-extension
+composer require axn/laravel-eloquent-authorable
 ```
 
 In Laravel 5.5 the service provider is automaticaly included.
