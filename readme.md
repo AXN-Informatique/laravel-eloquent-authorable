@@ -24,6 +24,29 @@ Compatibility
 | 5.0.x    | 1.x     |
 
 
+Installation
+------------
+
+With Composer :
+
+```sh
+composer require axn/laravel-eloquent-authorable
+```
+
+In Laravel 5.5 the service provider is automaticaly included.
+In older versions of the framework, simply add this service provider to the array
+of providers in `config/app.php` :
+
+```php
+// config/app.php
+
+'provider' => [
+    //...
+    Axn\EloquentAuthorable\ServiceProvider::class,
+    //...
+];
+```
+
 Usage
 -----
 
@@ -73,30 +96,6 @@ and updated by {{ $post->updatedBy->name }} ({{ $post->updatedBy->email }})
 ```php
 $post = Post::with('createdBy', 'updatedBy')->first();
 ```
-
-Installation
-------------
-
-With Composer :
-
-```sh
-composer require axn/laravel-eloquent-authorable
-```
-
-In Laravel 5.5 the service provider is automaticaly included.
-In older versions of the framework, simply add this service provider to the array
-of providers in `config/app.php` :
-
-```php
-// config/app.php
-
-'provider' => [
-    //...
-    Axn\EloquentAuthorable\ServiceProvider::class,
-    //...
-];
-```
-
 
 Settings
 --------
