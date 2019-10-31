@@ -2,6 +2,8 @@
 
 namespace Axn\EloquentAuthorable;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 trait AuthorableTrait
 {
     /**
@@ -35,7 +37,13 @@ trait AuthorableTrait
      */
     public function createdBy()
     {
-        return $this->belongsTo($this->getUsersModel(), $this->determineCreatedByColumnName());
+        $relation = $this->belongsTo($this->getUsersModel(), $this->determineCreatedByColumnName());
+
+        if (method_exists($this, 'getDeletedAtColumn')) {
+            return $relation->withTrashed();
+        }
+
+        return $relation;
     }
 
     /**
@@ -45,12 +53,18 @@ trait AuthorableTrait
      */
     public function updatedBy()
     {
-        return $this->belongsTo($this->getUsersModel(), $this->determineUpdatedByColumnName());
+        $relation = $this->belongsTo($this->getUsersModel(), $this->determineUpdatedByColumnName());
+
+        if (method_exists($this, 'getDeletedAtColumn')) {
+            return $relation->withTrashed();
+        }
+
+        return $relation;
     }
 
     /**
      *
-     * @return NULL
+     * @return \Illuminate\Auth\SessionGuard|null
      */
     protected function getAuthInstance()
     {
