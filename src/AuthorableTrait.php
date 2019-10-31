@@ -39,7 +39,7 @@ trait AuthorableTrait
     {
         $relation = $this->belongsTo($this->getUsersModel(), $this->determineCreatedByColumnName());
 
-        if (method_exists($this, 'getDeletedAtColumn')) {
+        if (method_exists($relation->getRelated(), 'getDeletedAtColumn')) {
             return $relation->withTrashed();
         }
 
@@ -55,7 +55,7 @@ trait AuthorableTrait
     {
         $relation = $this->belongsTo($this->getUsersModel(), $this->determineUpdatedByColumnName());
 
-        if (method_exists($this, 'getDeletedAtColumn')) {
+        if (method_exists($relation->getRelated(), 'getDeletedAtColumn')) {
             return $relation->withTrashed();
         }
 
