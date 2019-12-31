@@ -8,22 +8,6 @@ This package will avoid you to always indicate when creating and/or updating a m
 This package does it for you and it simplifies the recovery of this information.
 
 
-Compatibility
--------------
-
-| Laravel  | Package |
-| -------- | ------- |
-| 5.8.x    | 3.x     |
-| 5.7.x    | 3.x     |
-| 5.6.x    | 3.x     |
-| 5.5.x    | 3.x     |
-| 5.4.x    | 3.x     |
-| 5.3.x    | 2.x     |
-| 5.2.x    | 2.x     |
-| 5.1.x    | 1.x     |
-| 5.0.x    | 1.x     |
-
-
 Installation
 ------------
 
@@ -31,20 +15,6 @@ With Composer :
 
 ```sh
 composer require axn/laravel-eloquent-authorable
-```
-
-In Laravel 5.5 the service provider is automaticaly included.
-In older versions of the framework, simply add this service provider to the array
-of providers in `config/app.php` :
-
-```php
-// config/app.php
-
-'provider' => [
-    //...
-    Axn\EloquentAuthorable\ServiceProvider::class,
-    //...
-];
 ```
 
 Usage
