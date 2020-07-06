@@ -114,7 +114,7 @@ class Post extends Model implements Authorable
     use AuthorableTrait;
 
     public $authorable = [
-        'model' => \App\Admin::class,
+        'users_model' => \App\Admin::class,
         'guard' => 'admin',
     ];
 
@@ -184,7 +184,7 @@ class Post extends Model implements Authorable
     use AuthorableTrait;
 
     public $authorable = [
-        'model' => \App\Admin::class,
+        'users_model' => \App\Admin::class,
         'guard' => 'admin',
         'created_by_column_name    => 'custom_created_by',
         'set_author_when_creating' => true,
