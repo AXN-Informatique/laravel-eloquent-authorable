@@ -62,8 +62,10 @@ class ServiceProvider extends BaseServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/eloquent-authorable.php', 'eloquent-authorable');
 
-        $this->publishes([
-            __DIR__.'/../config/eloquent-authorable.php' => config_path('eloquent-authorable.php'),
-        ], 'config');
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../config/eloquent-authorable.php' => config_path('eloquent-authorable.php'),
+            ], 'config');
+        }
     }
 }
