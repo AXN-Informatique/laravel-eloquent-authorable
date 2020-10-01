@@ -1,23 +1,31 @@
 Changelog
 =========
 
+5.0.0 (2020-10-01)
+------------------
+
+- Moved events registration from service provider to AuthorableTrait for performances
+- Dropped Authorable interface since it is no longer necessary
+- Add migration helpers
+
+
 4.2.0 (2020-09-24)
 ------------------
 
-- Add support for Laravel 8
+- Added support for Laravel 8
 
 
 4.1.0 (2020-03-05)
 ------------------
 
-- Add support for Laravel 7
+- Added support for Laravel 7
 
 
 4.0.0 (2019-12-31)
 ------------------
 
-- Add support for Laravel 6
-- Drop support for Laravel 5.7 and older
+- Added support for Laravel 6
+- Dropped support for Laravel 5.7 and older
 
 
 3.2.1 (2019-10-31)
@@ -29,26 +37,26 @@ Changelog
 3.2.0 (2019-03-08)
 ------------------
 
-- Add support for Laravel 5.8
+- Added support for Laravel 5.8
 
 
 3.1.1 (2019-01-22)
 ------------------
 
-- Add missing composer extra section for Laravel
+- Added missing composer extra section for Laravel
 
 
 3.1.0 (2018-05-24)
 ------------------
 
 - Support for Laravel 5.5.x ; 5.6.x and 5.7.x
-- Add new configuration entry to customize the authentication Guard to use
+- Added new configuration entry to customize the authentication Guard to use
 
 
 3.0.1 (2018-05-24)
 ------------------
 
-- Add missing mergeConfigFrom call in service provider
+- Added missing mergeConfigFrom call in service provider
 
 
 3.0.0 (2017-08-31)
@@ -67,7 +75,7 @@ Changelog
 ------------------
 
 - Branche 2.x for Laravel 5.2.x and 5.3.x
-- Add config file with default partameters
+- Added config file with default partameters
 
 
 1.0.4 (2016-12-07)
@@ -85,7 +93,7 @@ Changelog
 1.0.2 (2016-11-02)
 ------------------
 
-- Move to Github
+- Moved to Github
 
 
 1.0.1 (2016-04-05)

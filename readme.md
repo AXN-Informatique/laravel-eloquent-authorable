@@ -7,6 +7,9 @@ this package provides automatic support for the `created_by` and` updated_by` fi
 This package will avoid you to always indicate when creating and/or updating a model who is the user who performed this action.
 This package does it for you and it simplifies the recovery of this information.
 
+So you can easily store and display this kind of information:
+
+> Added by **AXN** on *2016-03-24* and updated by **forxer** on *2020-10-01*
 
 Installation
 ------------
@@ -22,22 +25,62 @@ Usage
 
 To add functionality to a model, it is necessary that:
 
-1. the model implements the interface `Axn\EloquentAuthorable\Authorable`
+1. The related table has the concerned fields (by default `created_at` and `updated_at`)
 2. the model use the trait `Axn\EloquentAuthorable\Authorable`
-3. The related table has the concerned fields (by default `created_at` and `updated_at`)
 
 
-### Simple example
+### Database columns
 
-#### Eloquent Model
+You must create the columns in the database on the table of the model concerned.
+These columns are used to create the relationship between the related table and the "users" table.
+
+For this *since Laravel 5.8*, convenient utilities are available for adding or removing these columns in your migrations:
+
+```php
+Schema::create('posts', function (Blueprint $table) {
+    //...
+    $table->addAuthorableColumns();
+});
+```
+
+```php
+Schema::table('posts', function (Blueprint $table) {
+    //...
+    $table->dropAuthorableColumns();
+});
+```
+
+**Warning !**
+*These utilities use the columns names specified in the package configuration file **at the time the migrations are run**. If you modify this configuration, before or after having migrated, or if you overload it with the configuration by model, you should not use these utilities but add the columns by yourself. So these utilities are perfects for new application, but for old ones or for existing models, it is also recommended to create the columns yourself.*
+
+So, if you want to customize the definition of the columns you must define them yourself; for example :
+
+```php
+Schema::table('posts', function (Blueprint $table) {
+    $table->unsignedInteger('created_by')->nullable();
+    $table->unsignedInteger('updated_by')->nullable();
+
+    $table->foreign('created_by')
+        ->references('id')
+        ->on('users');
+
+    $table->foreign('updated_by')
+        ->references('id')
+        ->on('users');
+});
+```
+
+**Important note**
+*You can customize both the column names and the users table through settings; and this globally or by model (see below)*
+
+### Eloquent Model
 
 ```php
 
-use Axn\EloquentAuthorable\Authorable;
 use Axn\EloquentAuthorable\AuthorableTrait;
 use Illuminate\Database\Eloquent\Model
 
-class Post extends Model implements Authorable
+class Post extends Model
 {
     use AuthorableTrait;
 
@@ -54,18 +97,19 @@ In addition two 1-n inverse relationships (belongs to) with the users table are 
 - createdBy()
 - updatedBy()
 
-####  Using in Blade view
+####  Using Eloquent eager-loading
+
+```php
+$post = Post::with('createdBy', 'updatedBy')->first();
+```
+
+###  Using in Blade view
 
 ```blade
 Created by {{ $post->createdBy->name }} ({{ $post->createdBy->email }})
 and updated by {{ $post->updatedBy->name }} ({{ $post->updatedBy->email }})
 ```
 
-####  Using Eloquent eager-loading
-
-```php
-$post = Post::with('createdBy', 'updatedBy')->first();
-```
 
 Settings
 --------
@@ -105,11 +149,10 @@ You can specify different ones like this:
 
 ```php
 
-use Axn\EloquentAuthorable\Authorable;
 use Axn\EloquentAuthorable\AuthorableTrait;
 use Illuminate\Database\Eloquent\Model
 
-class Post extends Model implements Authorable
+class Post extends Model
 {
     use AuthorableTrait;
 
@@ -130,11 +173,10 @@ You can specify different column names for a model like this:
 
 ```php
 
-use Axn\EloquentAuthorable\Authorable;
 use Axn\EloquentAuthorable\AuthorableTrait;
 use Illuminate\Database\Eloquent\Model
 
-class Post extends Model implements Authorable
+class Post extends Model
 {
     use AuthorableTrait;
 
@@ -153,11 +195,10 @@ You can disable the feature like this:
 
 ```php
 
-use Axn\EloquentAuthorable\Authorable;
 use Axn\EloquentAuthorable\AuthorableTrait;
 use Illuminate\Database\Eloquent\Model
 
-class Post extends Model implements Authorable
+class Post extends Model
 {
     use AuthorableTrait;
 
@@ -175,11 +216,10 @@ class Post extends Model implements Authorable
 
 ```php
 
-use Axn\EloquentAuthorable\Authorable;
 use Axn\EloquentAuthorable\AuthorableTrait;
 use Illuminate\Database\Eloquent\Model
 
-class Post extends Model implements Authorable
+class Post extends Model
 {
     use AuthorableTrait;
 

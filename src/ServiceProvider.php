@@ -3,69 +3,38 @@
 namespace Axn\EloquentAuthorable;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Illuminate\Database\Schema\Blueprint;
 
 class ServiceProvider extends BaseServiceProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = false;
-
-    /**
-     * The boot method.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->bootEvents();
-    }
-
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
     public function register()
     {
-        $this->registerConfig();
-    }
-
-    /**
-     * Perform actions on Eloquent's creating/updating event.
-     *
-     * @return void
-     */
-    public function bootEvents()
-    {
-        $this->app['events']->listen('eloquent.creating*', function ($eventName, array $data) {
-            foreach ($data as $model) {
-                if ($model instanceof Authorable) {
-                    $model->setCreatedByColumn();
-                    $model->setUpdatedByColumn();
-                }
-            }
-        });
-
-        $this->app['events']->listen('eloquent.updating*', function ($eventName, array $data) {
-            foreach ($data as $model) {
-                if ($model instanceof Authorable) {
-                    $model->setUpdatedByColumn();
-                }
-            }
-        });
-    }
-
-    private function registerConfig()
-    {
         $this->mergeConfigFrom(__DIR__.'/../config/eloquent-authorable.php', 'eloquent-authorable');
+    }
 
+    public function boot()
+    {
         if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__.'/../config/eloquent-authorable.php' => config_path('eloquent-authorable.php'),
-            ], 'config');
+            $this->configurePublishing();
+            $this->registerMigrationsMacros();
         }
+    }
+
+    private function configurePublishing()
+    {
+        $this->publishes([
+            __DIR__.'/../config/eloquent-authorable.php' => config_path('eloquent-authorable.php'),
+        ], 'config');
+    }
+
+    private function registerMigrationsMacros()
+    {
+        Blueprint::macro('addAuthorableColumns', function () {
+            MigrationsMacros::addColumns($this);
+        });
+
+        Blueprint::macro('dropAuthorableColumns', function () {
+            MigrationsMacros::dropColumns($this);
+        });
     }
 }

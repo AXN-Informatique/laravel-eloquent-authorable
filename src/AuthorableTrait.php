@@ -2,8 +2,6 @@
 
 namespace Axn\EloquentAuthorable;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 trait AuthorableTrait
 {
     /**
@@ -60,6 +58,23 @@ trait AuthorableTrait
         }
 
         return $relation;
+    }
+
+    /**
+     * Boot trait, register "creating" and "updating" events.
+     *
+     * @return void
+     */
+    protected static function bootAuthorableTrait()
+    {
+        static::creating(function ($model) {
+            $model->setCreatedByColumn();
+            $model->setUpdatedByColumn();
+        });
+
+        static::updating(function ($model) {
+            $model->setUpdatedByColumn();
+        });
     }
 
     /**
