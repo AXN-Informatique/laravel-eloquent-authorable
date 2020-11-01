@@ -1,6 +1,12 @@
 Changelog
 =========
 
+5.1.0 (2020-11-01)
+------------------
+
+- More controls on addAuthorableColumns() migration helper
+
+
 5.0.0 (2020-10-01)
 ------------------
 

@@ -7,26 +7,42 @@ use Illuminate\Support\Facades\Schema;
 
 class MigrationsMacros
 {
-    public static function addColumns(Blueprint $table)
+    public static function addColumns(Blueprint $table, $useBigInteger = false, $usersModel = null)
     {
-        $createdBy = config('eloquent-authorable.created_by_column_name');
+        $config = config('eloquent-authorable');
 
-        if (!Schema::hasColumn($table->getTable(), $createdBy)) {
-            $table->unsignedBigInteger($createdBy)->nullable();
+        $userModel = resolve($usersModel ?? $config['users_model']);
 
-            $table->foreign($createdBy)
-                ->references('id')
-                ->on('users');
+        $usersTableKey = $userModel->getKeyName();
+        $usersTableName = $userModel->getTable();
+
+
+        $createdByColumn = $config['created_by_column_name'];
+
+        if (!Schema::hasColumn($table->getTable(), $createdByColumn)) {
+            if ($useBigInteger) {
+                $table->unsignedBigInteger($createdByColumn)->nullable();
+            } else {
+                $table->unsignedInteger($createdByColumn)->nullable();
+            }
+
+            $table->foreign($createdByColumn)
+                ->references($usersTableKey)
+                ->on($usersTableName);
         }
 
-        $updatedBy = config('eloquent-authorable.updated_by_column_name');
+        $updatedByColumn = $config['updated_by_column_name'];
 
-        if (!Schema::hasColumn($table->getTable(), $updatedBy)) {
-            $table->unsignedBigInteger($updatedBy)->nullable();
+        if (!Schema::hasColumn($table->getTable(), $updatedByColumn)) {
+            if ($useBigInteger) {
+                $table->unsignedBigInteger($updatedByColumn)->nullable();
+            } else {
+                $table->unsignedInteger($updatedByColumn)->nullable();
+            }
 
-            $table->foreign($updatedBy)
-                ->references('id')
-                ->on('users');
+            $table->foreign($updatedByColumn)
+                ->references($usersTableKey)
+                ->on($usersTableName);
         }
     }
 

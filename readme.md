@@ -26,7 +26,7 @@ Usage
 To add functionality to a model, it is necessary that:
 
 1. The related table has the concerned fields (by default `created_at` and `updated_at`)
-2. the model use the trait `Axn\EloquentAuthorable\Authorable`
+2. The model use the trait `Axn\EloquentAuthorable\Authorable`
 
 
 ### Database columns
@@ -34,26 +34,7 @@ To add functionality to a model, it is necessary that:
 You must create the columns in the database on the table of the model concerned.
 These columns are used to create the relationship between the related table and the "users" table.
 
-For this *since Laravel 5.8*, convenient utilities are available for adding or removing these columns in your migrations:
-
-```php
-Schema::create('posts', function (Blueprint $table) {
-    //...
-    $table->addAuthorableColumns();
-});
-```
-
-```php
-Schema::table('posts', function (Blueprint $table) {
-    //...
-    $table->dropAuthorableColumns();
-});
-```
-
-**Warning !**
-*These utilities use the columns names specified in the package configuration file **at the time the migrations are run**. If you modify this configuration, before or after having migrated, or if you overload it with the configuration by model, you should not use these utilities but add the columns by yourself. So these utilities are perfects for new application, but for old ones or for existing models, it is also recommended to create the columns yourself.*
-
-So, if you want to customize the definition of the columns you must define them yourself; for example :
+For example :
 
 ```php
 Schema::table('posts', function (Blueprint $table) {
@@ -69,6 +50,45 @@ Schema::table('posts', function (Blueprint $table) {
         ->on('users');
 });
 ```
+
+#### Migrations helpers
+
+Convenient utilities are available for adding or removing these columns in your migrations:
+
+```php
+Schema::create('posts', function (Blueprint $table) {
+    //...
+    $table->addAuthorableColumns();
+});
+```
+
+```php
+Schema::table('posts', function (Blueprint $table) {
+    //...
+    $table->dropAuthorableColumns();
+});
+```
+
+By default the `addAuthorableColumns()` method will generate integer columns type, if you need bigInteger instead you can pass the first parameter to `true`.
+
+```php
+Schema::create('posts', function (Blueprint $table) {
+    //...
+    $table->addAuthorableColumns(true);
+});
+```
+
+Also you can pass a users model class name as third parameter if needed.
+
+```php
+Schema::create('posts', function (Blueprint $table) {
+    //...
+    $table->addAuthorableColumns(true, App\Models\User::class);
+});
+```
+
+**Warning !**
+*These utilities use the columns names specified in the package configuration file **at the time the migrations are run**. If you modify this configuration, before or after having migrated, or if you overload it with the configuration by model, **you should not use these utilities** but add the columns by yourself. So these utilities are perfects for new application, but for old ones or for existing models, it is also recommended to create the columns yourself.*
 
 **Important note**
 *You can customize both the column names and the users table through settings; and this globally or by model (see below)*
