@@ -2,8 +2,8 @@
 
 namespace Axn\EloquentAuthorable;
 
-use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
 class ServiceProvider extends BaseServiceProvider
 {

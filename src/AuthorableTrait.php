@@ -5,6 +5,23 @@ namespace Axn\EloquentAuthorable;
 trait AuthorableTrait
 {
     /**
+     * Boot trait, register "creating" and "updating" events.
+     *
+     * @return void
+     */
+    protected static function bootAuthorableTrait()
+    {
+        static::creating(function ($model) {
+            $model->setCreatedByColumn();
+            $model->setUpdatedByColumn();
+        });
+
+        static::updating(function ($model) {
+            $model->setUpdatedByColumn();
+        });
+    }
+
+    /**
      * Set the "created_by" column.
      *
      * @return void
@@ -58,23 +75,6 @@ trait AuthorableTrait
         }
 
         return $relation;
-    }
-
-    /**
-     * Boot trait, register "creating" and "updating" events.
-     *
-     * @return void
-     */
-    protected static function bootAuthorableTrait()
-    {
-        static::creating(function ($model) {
-            $model->setCreatedByColumn();
-            $model->setUpdatedByColumn();
-        });
-
-        static::updating(function ($model) {
-            $model->setUpdatedByColumn();
-        });
     }
 
     /**

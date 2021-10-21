@@ -1,6 +1,14 @@
 Changelog
 =========
 
+6.0.0 (2021-10-21)
+------------------
+
+- Removed support of PHP 7 and earlier
+- Removed support of Laravel 7 and earlier
+- By default addAuthorableColumns() migration helper now create bigInteger columns instead of integer
+
+
 5.1.0 (2020-11-01)
 ------------------
 

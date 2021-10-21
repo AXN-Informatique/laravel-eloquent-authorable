@@ -69,12 +69,12 @@ Schema::table('posts', function (Blueprint $table) {
 });
 ```
 
-By default the `addAuthorableColumns()` method will generate integer columns type, if you need bigInteger instead you can pass the first parameter to `true`.
+By default the `addAuthorableColumns()` method will generate unsignedBigInteger columns type, if you need unsignedInteger instead you can pass the first parameter to `false`.
 
 ```php
 Schema::create('posts', function (Blueprint $table) {
     //...
-    $table->addAuthorableColumns(true);
+    $table->addAuthorableColumns(false);
 });
 ```
 
