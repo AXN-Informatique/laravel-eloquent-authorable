@@ -29,7 +29,7 @@ class ServiceProvider extends BaseServiceProvider
 
     private function registerMigrationsMacros()
     {
-        Blueprint::macro('addAuthorableColumns', function ($useBigInteger = false, $usersTableName = null) {
+        Blueprint::macro('addAuthorableColumns', function ($useBigInteger = true, $usersTableName = null) {
             MigrationsMacros::addColumns($this, $useBigInteger, $usersTableName);
         });
 
