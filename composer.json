@@ -1,23 +1,24 @@
 {
-    "name" : "axn/laravel-eloquent-authorable",
-    "description" : "Support for created_by and updated_by fields in Eloquent models.",
-    "homepage" : "https://github.com/AXN-Informatique/laravel-eloquent-authorable",
-    "support" : {
-        "issues" : "https://github.com/AXN-Informatique/laravel-eloquent-authorable/issues"
+    "name": "axn/laravel-eloquent-authorable",
+    "description": "Support for created_by and updated_by fields in Eloquent models.",
+    "homepage": "https://github.com/AXN-Informatique/laravel-eloquent-authorable",
+    "support": {
+        "issues": "https://github.com/AXN-Informatique/laravel-eloquent-authorable/issues"
     },
-    "authors" : [{
-            "name" : "AXN Informatique",
-            "email" : "developpement@axn.fr"
+    "authors": [
+        {
+            "name": "AXN Informatique",
+            "email": "developpement@axn.fr"
         }
     ],
-    "license" : "MIT",
-    "require" : {
+    "license": "MIT",
+    "require": {
         "php": "^8.0",
-        "illuminate/support": "^8.0 || ^9.0"
+        "illuminate/support": "^8.0 || ^9.0|^10.0"
     },
-    "autoload" : {
-        "psr-4" : {
-            "Axn\\EloquentAuthorable\\" : "src/"
+    "autoload": {
+        "psr-4": {
+            "Axn\\EloquentAuthorable\\": "src/"
         }
     },
     "extra": {
