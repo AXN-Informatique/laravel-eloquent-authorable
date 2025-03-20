@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 
 class MigrationsMacros
 {
-    public static function addColumns(Blueprint $table, $useBigInteger = true, $usersModel = null)
+    public static function addColumns(Blueprint $table, $useBigInteger = true, $usersModel = null): void
     {
         $config = config('eloquent-authorable');
 
@@ -16,10 +16,9 @@ class MigrationsMacros
         $usersTableKey = $userModel->getKeyName();
         $usersTableName = $userModel->getTable();
 
-
         $createdByColumn = $config['created_by_column_name'];
 
-        if (!Schema::hasColumn($table->getTable(), $createdByColumn)) {
+        if (! Schema::hasColumn($table->getTable(), $createdByColumn)) {
             if ($useBigInteger) {
                 $table->unsignedBigInteger($createdByColumn)->nullable();
             } else {
@@ -33,7 +32,7 @@ class MigrationsMacros
 
         $updatedByColumn = $config['updated_by_column_name'];
 
-        if (!Schema::hasColumn($table->getTable(), $updatedByColumn)) {
+        if (! Schema::hasColumn($table->getTable(), $updatedByColumn)) {
             if ($useBigInteger) {
                 $table->unsignedBigInteger($updatedByColumn)->nullable();
             } else {
@@ -46,7 +45,7 @@ class MigrationsMacros
         }
     }
 
-    public static function dropColumns(Blueprint $table)
+    public static function dropColumns(Blueprint $table): void
     {
         $createdBy = config('eloquent-authorable.created_by_column_name');
 

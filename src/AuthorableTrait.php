@@ -2,6 +2,9 @@
 
 namespace Axn\EloquentAuthorable;
 
+use Illuminate\Auth\SessionGuard;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 trait AuthorableTrait
 {
     /**
@@ -11,22 +14,20 @@ trait AuthorableTrait
      */
     protected static function bootAuthorableTrait()
     {
-        static::creating(function ($model) {
+        static::creating(function ($model): void {
             $model->setCreatedByColumn();
             $model->setUpdatedByColumn();
         });
 
-        static::updating(function ($model) {
+        static::updating(function ($model): void {
             $model->setUpdatedByColumn();
         });
     }
 
     /**
      * Set the "created_by" column.
-     *
-     * @return void
      */
-    public function setCreatedByColumn()
+    public function setCreatedByColumn(): void
     {
         if ($this->shouldSetAuthorWhenCreating()) {
             $this->setAuthorColumn($this->determineCreatedByColumnName());
@@ -35,10 +36,8 @@ trait AuthorableTrait
 
     /**
      * Set the "updated_by" column.
-     *
-     * @return void
      */
-    public function setUpdatedByColumn()
+    public function setUpdatedByColumn(): void
     {
         if ($this->shouldSetAuthorWhenUpdating()) {
             $this->setAuthorColumn($this->determineUpdatedByColumnName());
@@ -47,10 +46,8 @@ trait AuthorableTrait
 
     /**
      * Inverse 1-n relationship to the authoring user when creating.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function createdBy()
+    public function createdBy(): BelongsTo
     {
         $relation = $this->belongsTo($this->getUsersModel(), $this->determineCreatedByColumnName());
 
@@ -63,10 +60,8 @@ trait AuthorableTrait
 
     /**
      * Inverse 1-n relationship to the authoring user when updating.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function updatedBy()
+    public function updatedBy(): BelongsTo
     {
         $relation = $this->belongsTo($this->getUsersModel(), $this->determineUpdatedByColumnName());
 
@@ -77,11 +72,7 @@ trait AuthorableTrait
         return $relation;
     }
 
-    /**
-     *
-     * @return \Illuminate\Auth\SessionGuard|null
-     */
-    protected function getAuthInstance()
+    protected function getAuthInstance(): ?SessionGuard
     {
         static $auth = null;
 
@@ -94,12 +85,10 @@ trait AuthorableTrait
 
     /**
      * Determines the users model name to use.
-     *
-     * @return string
      */
-    protected function getUsersModel()
+    protected function getUsersModel(): string
     {
-        if (!isset($this->authorable['users_model'])) {
+        if (! isset($this->authorable['users_model'])) {
             return config('eloquent-authorable.users_model');
         }
 
@@ -108,12 +97,10 @@ trait AuthorableTrait
 
     /**
      * Determines the Guard name to use.
-     *
-     * @return string
      */
-    protected function getGuardName()
+    protected function getGuardName(): string
     {
-        if (!isset($this->authorable['guard'])) {
+        if (! isset($this->authorable['guard'])) {
             return config('eloquent-authorable.guard');
         }
 
@@ -122,12 +109,10 @@ trait AuthorableTrait
 
     /**
      * Indicates whether the author must be setted when creating (column "created_by").
-     *
-     * @return bool
      */
-    protected function shouldSetAuthorWhenCreating()
+    protected function shouldSetAuthorWhenCreating(): bool
     {
-        if (!isset($this->authorable['set_author_when_creating'])) {
+        if (! isset($this->authorable['set_author_when_creating'])) {
             return config('eloquent-authorable.set_author_when_creating');
         }
 
@@ -136,12 +121,10 @@ trait AuthorableTrait
 
     /**
      * Indicates whether the author must be setted when updating (column "updated_by").
-     *
-     * @return bool
      */
-    protected function shouldSetAuthorWhenUpdating()
+    protected function shouldSetAuthorWhenUpdating(): bool
     {
-        if (!isset($this->authorable['set_author_when_updating'])) {
+        if (! isset($this->authorable['set_author_when_updating'])) {
             return config('eloquent-authorable.set_author_when_updating');
         }
 
@@ -150,12 +133,10 @@ trait AuthorableTrait
 
     /**
      * Determines the name of the "created_by" column.
-     *
-     * @return string
      */
-    protected function determineCreatedByColumnName()
+    protected function determineCreatedByColumnName(): string
     {
-        if (!empty($this->authorable['created_by_column_name'])) {
+        if (! empty($this->authorable['created_by_column_name'])) {
             return $this->authorable['created_by_column_name'];
         }
 
@@ -164,12 +145,10 @@ trait AuthorableTrait
 
     /**
      * Determines the name of the "updated_by" column.
-     *
-     * @return string
      */
-    protected function determineUpdatedByColumnName()
+    protected function determineUpdatedByColumnName(): string
     {
-        if (!empty($this->authorable['updated_by_column_name'])) {
+        if (! empty($this->authorable['updated_by_column_name'])) {
             return $this->authorable['updated_by_column_name'];
         }
 
@@ -178,11 +157,8 @@ trait AuthorableTrait
 
     /**
      * Set an author column according to the column name ("created_by", "updated_by").
-     *
-     * @param  string $column
-     * @return void
      */
-    protected function setAuthorColumn($column)
+    protected function setAuthorColumn(string $column): void
     {
         $auth = $this->getAuthInstance();
 
