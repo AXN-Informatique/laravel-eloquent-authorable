@@ -1,16 +1,23 @@
 Changelog
 =========
 
+7.0.0 (2025-03-20)
+------------------
+
+- Minimum PHP version increased to 8.4
+- Minimum Laravel version increased to 12
+
+
 6.3.0 (2025-03-12)
 ------------------
 
-- Add support for Laravel 11
+- Added support for Laravel 11
 
 
 6.2.0 (2023-02-20)
 ------------------
 
-- Add support for Laravel 10
+- Added support for Laravel 10
 
 
 6.1.0 (2022-02-12)
