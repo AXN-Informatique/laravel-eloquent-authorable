@@ -9,10 +9,8 @@ trait AuthorableTrait
 {
     /**
      * Boot trait, register "creating" and "updating" events.
-     *
-     * @return void
      */
-    protected static function bootAuthorableTrait()
+    protected static function bootAuthorableTrait(): void
     {
         static::creating(function ($model): void {
             $model->setCreatedByColumn();
@@ -88,11 +86,7 @@ trait AuthorableTrait
      */
     protected function getUsersModel(): string
     {
-        if (! isset($this->authorable['users_model'])) {
-            return config('eloquent-authorable.users_model');
-        }
-
-        return $this->authorable['users_model'];
+        return $this->authorable['users_model'] ?? config('eloquent-authorable.users_model');
     }
 
     /**
@@ -100,35 +94,23 @@ trait AuthorableTrait
      */
     protected function getGuardName(): string
     {
-        if (! isset($this->authorable['guard'])) {
-            return config('eloquent-authorable.guard');
-        }
-
-        return $this->authorable['guard'];
+        return $this->authorable['guard'] ?? config('eloquent-authorable.guard');
     }
 
     /**
-     * Indicates whether the author must be setted when creating (column "created_by").
+     * Indicates whether the author must be set when creating (column "created_by").
      */
     protected function shouldSetAuthorWhenCreating(): bool
     {
-        if (! isset($this->authorable['set_author_when_creating'])) {
-            return config('eloquent-authorable.set_author_when_creating');
-        }
-
-        return $this->authorable['set_author_when_creating'];
+        return $this->authorable['set_author_when_creating'] ?? config('eloquent-authorable.set_author_when_creating');
     }
 
     /**
-     * Indicates whether the author must be setted when updating (column "updated_by").
+     * Indicates whether the author must be set when updating (column "updated_by").
      */
     protected function shouldSetAuthorWhenUpdating(): bool
     {
-        if (! isset($this->authorable['set_author_when_updating'])) {
-            return config('eloquent-authorable.set_author_when_updating');
-        }
-
-        return $this->authorable['set_author_when_updating'];
+        return $this->authorable['set_author_when_updating'] ?? config('eloquent-authorable.set_author_when_updating');
     }
 
     /**
@@ -136,11 +118,7 @@ trait AuthorableTrait
      */
     protected function determineCreatedByColumnName(): string
     {
-        if (! empty($this->authorable['created_by_column_name'])) {
-            return $this->authorable['created_by_column_name'];
-        }
-
-        return config('eloquent-authorable.created_by_column_name');
+        return $this->authorable['created_by_column_name'] ?? config('eloquent-authorable.created_by_column_name');
     }
 
     /**
@@ -148,11 +126,7 @@ trait AuthorableTrait
      */
     protected function determineUpdatedByColumnName(): string
     {
-        if (! empty($this->authorable['updated_by_column_name'])) {
-            return $this->authorable['updated_by_column_name'];
-        }
-
-        return config('eloquent-authorable.updated_by_column_name');
+        return $this->authorable['updated_by_column_name'] ?? config('eloquent-authorable.updated_by_column_name');
     }
 
     /**

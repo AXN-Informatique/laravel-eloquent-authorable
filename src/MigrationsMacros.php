@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 
 class MigrationsMacros
 {
-    public static function addColumns(Blueprint $table, $useBigInteger = true, $usersModel = null): void
+    public static function addColumns(Blueprint $table, bool $useBigInteger = true, ?string $usersModel = null): void
     {
         $config = config('eloquent-authorable');
 

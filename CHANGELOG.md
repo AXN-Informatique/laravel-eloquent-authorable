@@ -6,6 +6,7 @@ Changelog
 
 - Added support for Laravel 13
 - Added Laravel Boost assets
+- Modernized code with PHP 8.x features (null coalescing, type hints, return types)
 
 
 7.0.0 (2025-03-20)
