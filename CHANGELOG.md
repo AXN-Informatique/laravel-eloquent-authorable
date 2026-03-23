@@ -1,6 +1,13 @@
 Changelog
 =========
 
+7.1.0 (2026-03-23)
+------------------
+
+- Added support for Laravel 13
+- Added Laravel Boost assets
+
+
 7.0.0 (2025-03-20)
 ------------------
 
