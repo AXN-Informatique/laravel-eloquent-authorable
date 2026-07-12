@@ -1,6 +1,12 @@
 Changelog
 =========
 
+7.1.1 (2026-07-12)
+------------------
+
+- Slimmed Boost guidelines to pointer + critical pitfalls (details covered by the docs)
+
+
 7.1.0 (2026-03-23)
 ------------------
 
