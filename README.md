@@ -78,7 +78,7 @@ Schema::create('posts', function (Blueprint $table) {
 });
 ```
 
-Also you can pass a users model class name as third parameter if needed.
+Also you can pass a users model class name as second parameter if needed.
 
 ```php
 Schema::create('posts', function (Blueprint $table) {

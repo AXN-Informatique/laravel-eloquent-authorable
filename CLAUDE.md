@@ -35,6 +35,11 @@ Single `Feature` suite: everything needs the Testbench application, since the
 trait reads the container and writes to the database. Foreign keys are enabled
 on the test connection so that a stale author id fails the way it does on MySQL.
 
+Covered: author columns on create/update, authentication context isolation,
+Octane request boundary, guards other than the session guard, Blueprint macros,
+`createdBy()`/`updatedBy()` relations (including a soft-deleted author) and
+per-model configuration.
+
 Each test file owns its own authorable stub model (`tests/Stubs/*Document.php`),
 and none of them extend a common parent. This is deliberate: a `static`
 variable declared in a trait method is shared by every instance of the class

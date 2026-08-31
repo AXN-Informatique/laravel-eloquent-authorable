@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password')->nullable();
             $table->timestamps();
+
+            // Needed by SoftDeletableUser: the trait adds withTrashed() to the
+            // author relations when the users model is soft deletable.
+            $table->softDeletes();
         });
     }
 
