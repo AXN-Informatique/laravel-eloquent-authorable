@@ -23,15 +23,30 @@ vendor/bin/pint --test     # check only
 # Rector (automated refactoring)
 vendor/bin/rector           # apply
 vendor/bin/rector --dry-run # preview changes
+
+# Tests (Pest 5 on PHPUnit 13, Testbench application, in-memory SQLite)
+composer test                              # or vendor/bin/pest
+vendor/bin/pest tests/Feature/AuthorColumnsTest.php
 ```
 
-No test suite exists in this package.
+## Tests
+
+Single `Feature` suite: everything needs the Testbench application, since the
+trait reads the container and writes to the database. Foreign keys are enabled
+on the test connection so that a stale author id fails the way it does on MySQL.
+
+Each test file owns its own authorable stub model (`tests/Stubs/*Document.php`),
+and none of them extend a common parent. This is deliberate: a `static`
+variable declared in a trait method is shared by every instance of the class
+using the trait *and* by its subclasses, so a shared stub would make failures
+depend on the execution order. `AuthenticationContextIsolationTest` and
+`OctaneRequestBoundaryTest` guard against the reintroduction of such a cache.
 
 ## Architecture
 
 Three source files in `src/`:
 
-- **`AuthorableTrait`** — The trait models use. Hooks into Eloquent `creating`/`updating` events to set the author columns from the authenticated user. Provides `createdBy()`/`updatedBy()` BelongsTo relationships (auto-includes soft-deleted users via `withTrashed()`). Configuration is resolved per-model from `$model->authorable` array, falling back to the global config.
+- **`AuthorableTrait`** — The trait models use. Hooks into Eloquent `creating`/`updating` events to set the author columns from the authenticated user. Provides `createdBy()`/`updatedBy()` BelongsTo relationships (auto-includes soft-deleted users via `withTrashed()`). Configuration is resolved per-model from `$model->authorable` array, falling back to the global config. **Never cache the guard returned by `getAuthInstance()`**: `AuthManager::guard()` already memoizes it at the level Octane resets between two requests (`forgetGuards()`), and a guard held anywhere else keeps its authenticated user across requests and across tests (fixed in 7.2.0).
 
 - **`MigrationsMacros`** — Static helper called by Blueprint macros (`addAuthorableColumns` / `dropAuthorableColumns`). Adds nullable foreign-key columns pointing to the users table.
 

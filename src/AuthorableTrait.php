@@ -2,7 +2,7 @@
 
 namespace Axn\EloquentAuthorable;
 
-use Illuminate\Auth\SessionGuard;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait AuthorableTrait
@@ -70,15 +70,18 @@ trait AuthorableTrait
         return $relation;
     }
 
-    protected function getAuthInstance(): ?SessionGuard
+    /**
+     * Get the authentication guard the author must be read from.
+     *
+     * The guard is deliberately not memoized here: AuthManager::guard() already
+     * does it, at the level a long-running server resets between two requests
+     * (Octane flushes it with AuthManager::forgetGuards()). Holding the guard in
+     * a static would survive that reset and keep an authenticated user alive
+     * from one request -- or one test -- to the next.
+     */
+    protected function getAuthInstance(): Guard
     {
-        static $auth = null;
-
-        if ($auth === null) {
-            $auth = app('auth')->guard($this->getGuardName());
-        }
-
-        return $auth;
+        return app('auth')->guard($this->getGuardName());
     }
 
     /**

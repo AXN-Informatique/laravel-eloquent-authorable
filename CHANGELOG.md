@@ -1,6 +1,18 @@
 Changelog
 =========
 
+7.2.0 (2026-08-31)
+------------------
+
+- Fixed the authentication guard being memoized in a trait method static: the authenticated user could leak from one request to the next on a long-running server (Octane resets the guards between two requests, which the static survived) and from one test to the next, filling `created_by`/`updated_by` with the wrong user
+- Fixed the `getAuthInstance()` return type, which raised a `TypeError` with any guard other than a session guard (`token` driver, Sanctum...): it is now typed against the `Illuminate\Contracts\Auth\Guard` contract
+- Added a test suite (Testbench + Pest)
+
+Upgrading: an application overriding `getAuthInstance()` must declare
+`Illuminate\Contracts\Auth\Guard` as its return type instead of
+`?Illuminate\Auth\SessionGuard`.
+
+
 7.1.1 (2026-07-12)
 ------------------
 

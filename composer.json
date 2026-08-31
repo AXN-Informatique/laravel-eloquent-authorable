@@ -17,13 +17,22 @@
         "laravel/framework" : "^12.0 || ^13.0"
     },
     "require-dev": {
-        "laravel/pint": "^1.29.0",
-        "driftingly/rector-laravel": "^2.2.0",
-        "rector/rector": "^2.3.9"
+        "laravel/pint": "^1.30.5",
+        "driftingly/rector-laravel": "^2.6.2",
+        "orchestra/testbench": "^11.2",
+        "pestphp/pest": "^5.1.3",
+        "pestphp/pest-plugin-laravel": "^5.0.1",
+        "phpunit/phpunit": "^13.3.1",
+        "rector/rector": "^2.6.5"
     },
     "autoload": {
         "psr-4": {
             "Axn\\EloquentAuthorable\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Axn\\EloquentAuthorable\\Tests\\": "tests/"
         }
     },
     "extra": {
@@ -32,5 +41,14 @@
                 "Axn\\EloquentAuthorable\\ServiceProvider"
             ]
         }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest"
     }
 }
